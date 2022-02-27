@@ -4,15 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
-import com.boots.entity.RoleEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-@Table(name = "t_users")
+@Table(name = "t_user")
 @Data
+@NoArgsConstructor
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,15 @@ public class UserEntity implements UserDetails {
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
+
+    public UserEntity(Long id) {
+        this.id = id;
+    }
+
+    public UserEntity(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
